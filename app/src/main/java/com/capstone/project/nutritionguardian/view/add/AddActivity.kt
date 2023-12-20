@@ -1,6 +1,7 @@
 package com.capstone.project.nutritionguardian.view.add
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,19 +11,17 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.media.MediaScannerConnection
-import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.capstone.project.nutritionguardian.databinding.ActivityAddBinding
 import okhttp3.Call
 import okhttp3.Callback
+import okhttp3.FormBody
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -47,7 +46,6 @@ class AddActivity : AppCompatActivity() {
     private val CAMERA_PERMISSION_REQUEST_CODE = 1002
     private val PICK_IMAGE_REQUEST = 1
     private var capturedImageBitmap: Bitmap? = null
-    private var currentImageUri: Uri? = null
     private var selectedImage: ByteArray? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,34 +84,10 @@ class AddActivity : AppCompatActivity() {
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 
-//    private fun startGallery() {
-//        launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-//    }
-//
-//    private val launcherGallery = registerForActivityResult(
-//        ActivityResultContracts.PickVisualMedia()
-//    ) { uri: Uri? ->
-//        if (uri != null) {
-//            currentImageUri = uri
-//            showImage()
-//        } else {
-//            Log.d("Photo Picker", "No media selected")
-//        }
-//    }
-
-    private fun showImage() {
-        currentImageUri?.let {
-            Log.d("Image URI", "showImage: $it")
-            binding.imageView.setImageURI(it)
-        }
-    }
-
     private fun uploadImage() {
-        // Replace with your actual PHP script URL
         val uploadUrl =
-            "https://fastapicc-php-ku3urc7swa-uc.a.run.app" // Example IP address, replace with your server's IP
+            "https://fastapicc-php-ku3urc7swa-uc.a.run.app"
 
-        // Create request body
         val requestBody: RequestBody = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
             .addFormDataPart(
@@ -166,6 +140,8 @@ class AddActivity : AppCompatActivity() {
                         // Get the canvas to draw on the bitmap
                         val canvas = Canvas(mutableBitmap)
 
+
+
                         // Iterate through predictions and draw bounding boxes
                         for (i in 0 until predictions.length()) {
                             val prediction = predictions.getJSONObject(i)
@@ -194,6 +170,95 @@ class AddActivity : AppCompatActivity() {
                             paint.style = Paint.Style.FILL
                             paint.textSize = 30f
                             canvas.drawText(label, x1, y1 - 10, paint)
+
+                            val classId = prediction.getInt("class_id")
+
+                            val nutritionUrl =
+                                "https://genkagromas.com/api/api.php"
+
+                            val nutritionRequestBody: RequestBody =
+                                FormBody.Builder()
+                                    .add("class_id", classId.toString())
+                                    .build()
+
+                            val nutritionRequest: Request = Request.Builder()
+                                .url(nutritionUrl)
+                                .post(nutritionRequestBody)
+                                .build()
+
+                            client.newCall(nutritionRequest).enqueue(object : Callback {
+                                @SuppressLint("SetTextI18n")
+                                override fun onResponse(
+                                    call: Call,
+                                    nutritionResponse: Response
+                                ) {
+                                    try {
+                                        if (nutritionResponse.isSuccessful) {
+                                            val nutritionResponseBody =
+                                                nutritionResponse.body!!.string()
+                                            Log.d("Nutrition", nutritionResponseBody)
+
+                                            val nutritionJsonResponse =
+                                                JSONObject(nutritionResponseBody)
+
+                                            Log.d(
+                                                "Nutrition",
+                                                "label: " + nutritionJsonResponse.get("nama_label")
+                                            )
+                                            Log.d(
+                                                "Nutrition",
+                                                "karbohidrat: " + nutritionJsonResponse.get("karbohidrat")
+                                            )
+                                            Log.d(
+                                                "Nutrition",
+                                                "protein: " + nutritionJsonResponse.get("protein")
+                                            )
+                                            Log.d(
+                                                "Nutrition",
+                                                "kalori: " + nutritionJsonResponse.get("kalori")
+                                            )
+                                            Log.d(
+                                                "Nutrition",
+                                                "lemak: " + nutritionJsonResponse.get("lemak")
+                                            )
+                                            Log.d(
+                                                "Nutrition",
+                                                "vitamin_mineral: " + nutritionJsonResponse.get("vitamin_mineral")
+                                            )
+
+                                            runOnUiThread {
+                                                binding.informasi2.text = "Karbohidrat: " + nutritionJsonResponse.getString("karbohidrat")
+                                                binding.informasi3.text = "Protein: " + nutritionJsonResponse.getString("protein")
+                                                binding.informasi4.text = "Kalori: " + nutritionJsonResponse.getString("kalori")
+                                                binding.informasi5.text = "Lemak: " + nutritionJsonResponse.getString("lemak")
+                                                binding.informasi6.text = "Vitamin & Mineral: " + nutritionJsonResponse.getString("vitamin_mineral")
+                                            }
+                                        } else {
+                                            Log.e(
+                                                "Nutrition API Error",
+                                                "Unsuccessful response: " + nutritionResponse.code + " " + nutritionResponse.message
+                                            )
+                                        }
+                                    } catch (e: JSONException) {
+                                        throw RuntimeException(e)
+                                    } finally {
+                                        if (nutritionResponse.body != null) {
+                                            nutritionResponse.body!!.close()
+                                        }
+                                    }
+                                }
+
+                                override fun onFailure(call: Call, e: IOException) {
+                                    e.printStackTrace()
+                                    Log.e(
+                                        "Nutrition API Error",
+                                        "Failed to make API request: " + e.message
+                                    )
+                                }
+                            })
+                            runOnUiThread {
+                                binding.resName.setText(label)
+                            }
                         }
 
                         // Update the ImageView with the modified bitmap
@@ -212,6 +277,7 @@ class AddActivity : AppCompatActivity() {
                 } finally {
                     response.body?.close()
                 }
+
             }
 
             override fun onFailure(call: Call, e: IOException) {
@@ -286,5 +352,15 @@ class AddActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
+
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            capturedImageBitmap = data?.extras?.get("data") as Bitmap
+            capturedImageBitmap?.let { binding.imageView.setImageBitmap(it) }
+
+            // Save image to storage
+            capturedImageBitmap?.let { saveImageToGallery(it) }
+        }
     }
 }
+
+

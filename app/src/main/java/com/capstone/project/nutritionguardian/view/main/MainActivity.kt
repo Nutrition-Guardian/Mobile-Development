@@ -21,10 +21,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.capstone.project.nutritionguardian.R
 import com.capstone.project.nutritionguardian.databinding.ActivityMainBinding
 import com.capstone.project.nutritionguardian.view.ViewModelFactory
 import com.capstone.project.nutritionguardian.view.add.AddActivity
+import com.capstone.project.nutritionguardian.view.home.HomeFragment
+import com.capstone.project.nutritionguardian.view.profile.ProfileFragment
 import com.capstone.project.nutritionguardian.view.welcome.WelcomeActivity
 import java.io.File
 import java.io.FileOutputStream
@@ -44,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        replaceFragment(HomeFragment())
 
         setSupportActionBar(binding.toolbarHome)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -54,9 +58,24 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
         }
+
+        binding.bottomNavView.setOnItemSelectedListener{
+            when(it.itemId) {
+
+                R.id.bottom_home -> replaceFragment(HomeFragment())
+                R.id.bottom_profile -> replaceFragment(ProfileFragment())
+
+                else -> {
+                }
+            }
+            true
+        }
+
+        binding.fab.setOnClickListener{
+            startActivity(Intent(this@MainActivity, AddActivity::class.java))
+        }
         setupView()
     }
-
 
     private fun setupView() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -67,6 +86,13 @@ class MainActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frame_container, fragment)
+        fragmentTransaction.commit()
     }
 
 //    private fun playAnimation() {
@@ -85,26 +111,23 @@ class MainActivity : AppCompatActivity() {
 //        }.start()
 //    }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.home_menu, menu)
-        return true
-    }
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        menuInflater.inflate(R.menu.home_menu, menu)
+//        return true
+//    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.btn_logout -> {
-                viewModel.logout()
-                true
-            }
-            R.id.btn_add -> {
-                startActivity(Intent(this@MainActivity, AddActivity::class.java))
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-
-
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        return when (item.itemId) {
+//            R.id.btn_logout -> {
+//                viewModel.logout()
+//                true
+//            }
+//            R.id.btn_add -> {
+//                startActivity(Intent(this@MainActivity, AddActivity::class.java))
+//                true
+//            }
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
 
 }

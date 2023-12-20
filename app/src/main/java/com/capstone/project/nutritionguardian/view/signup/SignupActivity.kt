@@ -43,7 +43,7 @@ class SignupActivity : AppCompatActivity() {
 
             AlertDialog.Builder(this).apply {
                 setTitle("Yeah!")
-                setMessage("Akun dengan $email sudah jadi nih. Yuk, login dan belajar coding.")
+                setMessage("Akun dengan $email sudah jadi nih. Yuk, login dan perhatikan nutrisi si kecil.")
                 setPositiveButton("Lanjut") { _, _ ->
                     finish()
                 }
