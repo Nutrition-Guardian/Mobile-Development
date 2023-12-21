@@ -12,6 +12,7 @@ import com.capstone.project.nutritionguardian.R
 import com.capstone.project.nutritionguardian.adapters.HomeHorAdapter
 import com.capstone.project.nutritionguardian.data.Food
 import com.capstone.project.nutritionguardian.databinding.FragmentHomeBinding
+import com.capstone.project.nutritionguardian.view.logbook.AddLogbookFragment
 import java.util.Calendar
 
 // TODO: Rename parameter arguments, choose names that match
@@ -82,6 +83,18 @@ class HomeFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         adapter = HomeHorAdapter(newArrayList)
         recyclerView.adapter = adapter
+
+
+
+        binding.addLog.setOnClickListener{
+            val addLogbookFragment = AddLogbookFragment()
+            val fragmentManager = parentFragmentManager
+            fragmentManager.beginTransaction().apply {
+               replace(R.id.frame_container,addLogbookFragment, AddLogbookFragment::class.java.simpleName)
+                addToBackStack(null)
+                commit()
+             }
+        }
     }
 
     private fun dataInitialSize() {

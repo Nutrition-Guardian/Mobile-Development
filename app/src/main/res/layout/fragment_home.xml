@@ -14,10 +14,10 @@
             android:id="@+id/greeting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="6dp"
             android:text="Halo, Moms!"
             android:textColor="@color/leaf"
             android:textSize="20sp"
-            android:layout_margin="6dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,10 +27,10 @@
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="6dp"
             android:text="15 Desember 2023"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_margin="6dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,6 +46,43 @@
             app:layout_constraintTop_toBottomOf="@+id/date">
 
         </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/logbook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Logbook"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_img" />
+
+        <TextView
+            android:id="@+id/addLog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp"
+            android:text="Tambah Logbook"
+            android:textColor="@color/leaf"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_img"
+            tools:layout_editor_absoluteX="332dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_logBook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logbook">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-    
+
 </androidx.core.widget.NestedScrollView>
