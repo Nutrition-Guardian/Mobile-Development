@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Nutrition Guardian</string>
+    <string name="signup">Daftar</string>
+    <string name="login">Masuk</string>
+    <string name="message_welcome_page">Hello, Moms. Mau mengecek nutrisi pada makanan si buah hati, Hari ini ?</string>
+    <string name="title_welcome_page">Selamat datang di Nutrition Guardian</string>
+    <string name="title_signup_page">Lengkapi data dirimu di bawah ini ya</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="message_login_page">Masukkan dulu datamu ya</string>
+    <string name="title_login_page">Sudah siap untuk mengecek nutrisi ?</string>
+    <string name="name">Nama</string>
+    <string name="message_main_page">Selamat Datang di Nutrition Guardian</string>
+    <string name="greeting">Halo %1$s,</string>
+    <string name="logout">Keluar</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="detect">Detect</string>
+
+
+</resources>

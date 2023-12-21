@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "297131934944",
+    "project_id": "mgce-nutrition-guardian",
+    "storage_bucket": "mgce-nutrition-guardian.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:297131934944:android:1678c3012f8970daca7c85",
+        "android_client_info": {
+          "package_name": "com.capstone.project.nutritionguardian"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAz3ltKZygtTfgI6vjB8aG5AEUQr6vTsVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
