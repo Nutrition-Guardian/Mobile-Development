@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "958939226859",
+    "firebase_url": "https://logbook-66fc9-default-rtdb.firebaseio.com",
+    "project_id": "logbook-66fc9",
+    "storage_bucket": "logbook-66fc9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958939226859:android:0b644fe836c59c41e214ae",
+        "android_client_info": {
+          "package_name": "com.capstone.project.nutritionguardian"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "958939226859-gnt8lk51r9drsc7hi0jr0r1duh9l6m93.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.capstone.project.nutritionguardian",
+            "certificate_hash": "8edc4b2679d48ffe13077d04349e01880eee7358"
+          }
+        },
+        {
+          "client_id": "958939226859-2cdn1u6hk5uvhnp893ghdtakv9equ92l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAw2mEHusFZ7H90aZcXEOPljX2q3NfJ5bY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "958939226859-2cdn1u6hk5uvhnp893ghdtakv9equ92l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
